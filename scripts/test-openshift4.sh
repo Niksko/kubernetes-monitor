@@ -10,8 +10,6 @@
 # - See test/README-OPENSHIFT4.md for instructions (skip if already done).
 #
 # The following environment variables:
-# - QUAY_USERNAME (search in 1Password: xnz2hv2h3bdwriove2zlbnlwhq)
-# - QUAY_PASSWORD (search in 1Password: xnz2hv2h3bdwriove2zlbnlwhq)
 # - DOCKERHUB_USER (search in 1Password: mrvhrhni3jdj3mjzlf3u3zfhgm)
 # - DOCKERHUB_PASSWORD (search in 1Password: mrvhrhni3jdj3mjzlf3u3zfhgm)
 # - OPENSHIFT4_USER (crc console --credentials)
@@ -32,8 +30,6 @@ function validateEnvVar {
   fi
 }
 
-validateEnvVar QUAY_USERNAME "$QUAY_USERNAME"
-validateEnvVar QUAY_PASSWORD "$QUAY_PASSWORD"
 validateEnvVar DOCKERHUB_USER "$DOCKERHUB_USER"
 validateEnvVar DOCKERHUB_PASSWORD "$DOCKERHUB_PASSWORD"
 validateEnvVar OPENSHIFT4_USER "$OPENSHIFT4_USER"
@@ -41,9 +37,6 @@ validateEnvVar OPENSHIFT4_PASSWORD "$OPENSHIFT4_PASSWORD"
 validateEnvVar OPENSHIFT4_CLUSTER_URL "$OPENSHIFT4_CLUSTER_URL"
 
 if [ "${CI}" != "true" ]; then
-  # Ensure any left-over Operators don't interfere with this test run
-  python3 scripts/operator/delete_operators_from_quay.py "${QUAY_USERNAME}" "${QUAY_PASSWORD}"
-  
   if [ "$KUBERNETES_MONITOR_IMAGE_TAG" == "" ]; then
     RED_COLOR='\033[0;31m'
     NO_COLOR='\033[0m'

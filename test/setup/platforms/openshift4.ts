@@ -8,7 +8,7 @@ import { throwIfEnvironmentVariableUnset } from './helpers';
 import * as kubectl from '../../helpers/kubectl';
 import { execWrapper as exec } from '../../helpers/exec';
 
-const OPENSHIFT_CLI_VERSION = '4.3.0';
+const OPENSHIFT_CLI_VERSION = '4.7.0';
 
 export async function validateRequiredEnvironment(): Promise<void> {
   console.log(
@@ -76,7 +76,7 @@ export async function clean(): Promise<void> {
   await Promise.all([
     tryDescribingResourceToFile('deployment', 'snyk-operator', 'snyk-monitor'),
     tryDescribingResourceToFile('deployment', 'snyk-monitor', 'snyk-monitor'),
-    tryDescribingResourceToFile('operatorsource', 'snyk-operator', 'openshift-marketplace'),
+    tryDescribingResourceToFile('catalogsource', 'snyk-operator', 'openshift-marketplace'),
     tryDescribingResourceToFile('subscription', 'snyk-operator', 'snyk-monitor'),
   ]);
 
@@ -88,7 +88,7 @@ export async function clean(): Promise<void> {
 
   await Promise.all([
     kubectl.deleteResource('customresourcedefinition', 'snykmonitors.charts.helm.k8s.io', 'default').catch(() => undefined),
-    kubectl.deleteResource('operatorsource', 'snyk-operator', 'openshift-marketplace').catch(() => undefined),
+    kubectl.deleteResource('catalogsource', 'snyk-operator', 'openshift-marketplace').catch(() => undefined),
     kubectl.deleteResource('clusterrolebinding', 'snyk-monitor', 'default').catch(() => undefined),
     kubectl.deleteResource('clusterrole', 'snyk-monitor', 'default').catch(() => undefined),
     kubectl.deleteNamespace('services').catch(() => undefined),
